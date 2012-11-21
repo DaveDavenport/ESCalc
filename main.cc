@@ -72,10 +72,14 @@ int main (int argc, char **argv)
             // Check for EOF
             if(temp == NULL) break;
             // Check for empty line.
-            if(temp[0] == '\0') continue;
+            if(temp[0] == '\0'){
+                free(temp);
+                continue;
+            }
             // check help.
             if(strncasecmp(temp, "help", 4) == 0) {
                 print_help();
+                free(temp);
                 continue;
             }
             add_history(temp);
