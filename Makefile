@@ -1,4 +1,4 @@
-PROGRAM=hconvert
+PROGRAM=escalc
 PREFIX?=/usr/local/
 
 SOURCES=$(wildcard *.cc)
@@ -15,7 +15,7 @@ $(PROGRAM): $(OBJECTS)
 
 
 clean:
-	rm -f $(PROGRAM)
+	rm -f $(PROGRAM) $(OBJECTS)
 
 install: $(PROGRAM)
 	install $(PROGRAM) $(PREFIX)/bin/
