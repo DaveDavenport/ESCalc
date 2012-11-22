@@ -13,3 +13,15 @@ It supports:
 +, -, *, /, %, >>, <<, &, |, &&, ||, <. >, <=, >=, ==, ^
 
 To reuse result, you can use the variable ans.
+
+Example:
+escalc
+> (12+24kb+0x400)&0x00FFFFFFFF
+Result: 
+dec:   25612
+hex: 0x640c
+bit:   0000 0000 0000 0000 0110 0100 0000 1100 
+Bytes: 12b, 25kb, 0mb, 0gb
+
+
+For new features, please mail qball _at_ gmpclient.org.
