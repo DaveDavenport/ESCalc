@@ -1,0 +1,15 @@
+A small utility that helps calculating memory spaces.
+It uses readline to get user input, and muparser to parse the expresssion.
+The following postfixes are supported:
+k = 1000
+M = 1000*1000
+G = 1000*1000*1000
+
+kb = 1024
+mb = 1024*1024
+gb = 1024*1024*1024
+
+It supports:
++, -, *, /, %, >>, <<, &, |, &&, ||, <. >, <=, >=, ==, ^
+
+To reuse result, you can use the variable ans.
