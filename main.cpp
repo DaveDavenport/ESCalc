@@ -44,7 +44,7 @@ int main (int argc, char **argv)
 
     // Create parser object.
     mu::ParserUInt p;
-    p.DefineOprtChars("mkgbMG");
+    p.DefineOprtChars("mkgbMGx");
     value_type ans = 0;
     p.DefineVar("ans", &ans);
                        
