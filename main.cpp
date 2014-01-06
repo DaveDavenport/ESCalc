@@ -90,7 +90,8 @@ int main (int argc, char **argv)
             // Print result.
             std::cout << "Result: "<<endl;
             unsigned int result = p.Eval();
-            std::cout << "dec:   "<<dec << result << endl;
+            std::cout << "dec:   "<<dec << result;
+            std::cout << " (signed: " << int(result) << ")" << endl; 
             std::cout << "hex: 0x"<<hex << result << endl;
 
             std::cout  << "bit:   "; 
