@@ -43,10 +43,10 @@ namespace mu
   This version of the parser handles only integer numbers. It disables the built in operators thus it is 
   slower than muParser. Integer values are stored in the double value_type and converted if needed.
 */
-class ParserUInt : public ParserBase
+class ParserInt : public ParserBase
 {
 private:
-    static unsigned int  Round(value_type v) { return (unsigned int)(v + 0.5 ); };
+    static long  Round(value_type v) { return (long)(v + 0.5 ); };
   
     static value_type  Abs(value_type);
     static value_type  Sign(value_type);
@@ -121,7 +121,7 @@ private:
     };
 
 public:
-    ParserUInt();
+    ParserInt();
 
     virtual void InitFun();
 	  virtual void InitOprt();

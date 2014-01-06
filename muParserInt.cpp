@@ -23,7 +23,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 */
 
-#include "muParserUInt.h"
+#include "muParserInt.h"
 
 #include <cmath>
 #include <algorithm>
@@ -38,44 +38,44 @@ using namespace std;
 /** \brief Namespace for mathematical applications. */
 namespace mu
 {
-value_type ParserUInt::Abs(value_type v)  { return (value_type)Round(fabs((double)v)); }
-value_type ParserUInt::Sign(value_type v) { return (Round(v)<0) ? -1 : (Round(v)>0) ? 1 : 0; }
-value_type ParserUInt::Ite(value_type v1, 
+value_type ParserInt::Abs(value_type v)  { return (value_type)Round(fabs((double)v)); }
+value_type ParserInt::Sign(value_type v) { return (Round(v)<0) ? -1 : (Round(v)>0) ? 1 : 0; }
+value_type ParserInt::Ite(value_type v1, 
                           value_type v2, 
                           value_type v3) { return (Round(v1)==1) ? Round(v2) : Round(v3); }
-value_type ParserUInt::Add(value_type v1, value_type v2) { return Round(v1)  + Round(v2); }
-value_type ParserUInt::Sub(value_type v1, value_type v2) { return Round(v1)  - Round(v2); }
-value_type ParserUInt::Mul(value_type v1, value_type v2) { return Round(v1)  * Round(v2); }
-value_type ParserUInt::Div(value_type v1, value_type v2) { return Round(v1)  / Round(v2); }
-value_type ParserUInt::Mod(value_type v1, value_type v2) { return Round(v1)  % Round(v2); }
-value_type ParserUInt::Shr(value_type v1, value_type v2) { return Round(v1) >> Round(v2); }
-value_type ParserUInt::Shl(value_type v1, value_type v2) { return Round(v1) << Round(v2); }
-value_type ParserUInt::LogAnd(value_type v1, value_type v2) { return Round(v1) & Round(v2); }
-value_type ParserUInt::LogOr(value_type v1, value_type v2)  { return Round(v1) | Round(v2); }
-value_type ParserUInt::And(value_type v1, value_type v2) { return Round(v1) && Round(v2); }
-value_type ParserUInt::Or(value_type v1, value_type v2)  { return Round(v1) || Round(v2); }
-value_type ParserUInt::Less(value_type v1, value_type v2)      { return Round(v1)  < Round(v2); }
-value_type ParserUInt::Greater(value_type v1, value_type v2)   { return Round(v1)  > Round(v2); }
-value_type ParserUInt::LessEq(value_type v1, value_type v2)    { return Round(v1) <= Round(v2); }
-value_type ParserUInt::GreaterEq(value_type v1, value_type v2) { return Round(v1) >= Round(v2); }
-value_type ParserUInt::Equal(value_type v1, value_type v2)     { return Round(v1) == Round(v2); }
-value_type ParserUInt::NotEqual(value_type v1, value_type v2)  { return Round(v1) != Round(v2); }
-value_type ParserUInt::Not(value_type v) { return !Round(v); }
+value_type ParserInt::Add(value_type v1, value_type v2) { return Round(v1)  + Round(v2); }
+value_type ParserInt::Sub(value_type v1, value_type v2) { return Round(v1)  - Round(v2); }
+value_type ParserInt::Mul(value_type v1, value_type v2) { return Round(v1)  * Round(v2); }
+value_type ParserInt::Div(value_type v1, value_type v2) { return Round(v1)  / Round(v2); }
+value_type ParserInt::Mod(value_type v1, value_type v2) { return Round(v1)  % Round(v2); }
+value_type ParserInt::Shr(value_type v1, value_type v2) { return Round(v1) >> Round(v2); }
+value_type ParserInt::Shl(value_type v1, value_type v2) { return Round(v1) << Round(v2); }
+value_type ParserInt::LogAnd(value_type v1, value_type v2) { return Round(v1) & Round(v2); }
+value_type ParserInt::LogOr(value_type v1, value_type v2)  { return Round(v1) | Round(v2); }
+value_type ParserInt::And(value_type v1, value_type v2) { return Round(v1) && Round(v2); }
+value_type ParserInt::Or(value_type v1, value_type v2)  { return Round(v1) || Round(v2); }
+value_type ParserInt::Less(value_type v1, value_type v2)      { return Round(v1)  < Round(v2); }
+value_type ParserInt::Greater(value_type v1, value_type v2)   { return Round(v1)  > Round(v2); }
+value_type ParserInt::LessEq(value_type v1, value_type v2)    { return Round(v1) <= Round(v2); }
+value_type ParserInt::GreaterEq(value_type v1, value_type v2) { return Round(v1) >= Round(v2); }
+value_type ParserInt::Equal(value_type v1, value_type v2)     { return Round(v1) == Round(v2); }
+value_type ParserInt::NotEqual(value_type v1, value_type v2)  { return Round(v1) != Round(v2); }
+value_type ParserInt::Not(value_type v) { return !Round(v); }
 
-value_type ParserUInt::Pow(value_type v1, value_type v2) 
+value_type ParserInt::Pow(value_type v1, value_type v2) 
 { 
   return std::pow((double)Round(v1), (double)Round(v2)); 
 }
 
 //---------------------------------------------------------------------------
 // Unary operator Callbacks: Infix operators
-value_type ParserUInt::UnaryMinus(value_type v) 
+value_type ParserInt::UnaryMinus(value_type v) 
 { 
   return -Round(v); 
 }
 
 //---------------------------------------------------------------------------
-value_type ParserUInt::Sum(const value_type* a_afArg, int a_iArgc)
+value_type ParserInt::Sum(const value_type* a_afArg, int a_iArgc)
 { 
   if (!a_iArgc)	
     throw ParserError(_T("too few arguments for function sum."));
@@ -88,7 +88,7 @@ value_type ParserUInt::Sum(const value_type* a_afArg, int a_iArgc)
 }
 
 //---------------------------------------------------------------------------
-value_type ParserUInt::Min(const value_type* a_afArg, int a_iArgc)
+value_type ParserInt::Min(const value_type* a_afArg, int a_iArgc)
 { 
   if (!a_iArgc)	
     throw ParserError( _T("too few arguments for function min.") );
@@ -101,7 +101,7 @@ value_type ParserUInt::Min(const value_type* a_afArg, int a_iArgc)
 }
 
 //---------------------------------------------------------------------------
-value_type ParserUInt::Max(const value_type* a_afArg, int a_iArgc)
+value_type ParserInt::Max(const value_type* a_afArg, int a_iArgc)
 { 
   if (!a_iArgc)	
     throw ParserError(_T("too few arguments for function min."));
@@ -115,7 +115,7 @@ value_type ParserUInt::Max(const value_type* a_afArg, int a_iArgc)
 
 //---------------------------------------------------------------------------
 // Default value recognition callback
-int ParserUInt::IsVal(const char_type *a_szExpr, int *a_iPos, value_type *a_fVal)
+int ParserInt::IsVal(const char_type *a_szExpr, int *a_iPos, value_type *a_fVal)
 {
   string_type buf(a_szExpr);
   std::size_t pos = buf.find_first_not_of(_T("0123456789"));
@@ -152,7 +152,7 @@ int ParserUInt::IsVal(const char_type *a_szExpr, int *a_iPos, value_type *a_fVal
 
   Hey values must be prefixed with "0x" in order to be detected properly.
 */
-int ParserUInt::IsHexVal(const char_type *a_szExpr, int *a_iPos, value_type *a_fVal)
+int ParserInt::IsHexVal(const char_type *a_szExpr, int *a_iPos, value_type *a_fVal)
 {
   if (a_szExpr[1]==0 || (a_szExpr[0]!='0' || a_szExpr[1]!='x') ) 
     return 0;
@@ -174,7 +174,7 @@ int ParserUInt::IsHexVal(const char_type *a_szExpr, int *a_iPos, value_type *a_f
 }
 
 //---------------------------------------------------------------------------
-int ParserUInt::IsBinVal(const char_type *a_szExpr, int *a_iPos, value_type *a_fVal)
+int ParserInt::IsBinVal(const char_type *a_szExpr, int *a_iPos, value_type *a_fVal)
 {
   if (a_szExpr[0]!='#') 
     return 0;
@@ -203,7 +203,7 @@ int ParserUInt::IsBinVal(const char_type *a_szExpr, int *a_iPos, value_type *a_f
 
   Call ParserBase class constructor and trigger Function, Operator and Constant initialization.
 */
-ParserUInt::ParserUInt()
+ParserInt::ParserInt()
   :ParserBase()
 {
   AddValIdent(IsVal);    // lowest priority
@@ -216,12 +216,12 @@ ParserUInt::ParserUInt()
 }
 
 //---------------------------------------------------------------------------
-void ParserUInt::InitConst()
+void ParserInt::InitConst()
 {
 }
 
 //---------------------------------------------------------------------------
-void ParserUInt::InitCharSets()
+void ParserInt::InitCharSets()
 {
   DefineNameChars( _T("0123456789_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ") );
   DefineOprtChars( _T("+-*^/?<>=!%&|~'_") );
@@ -230,7 +230,7 @@ void ParserUInt::InitCharSets()
 
 //---------------------------------------------------------------------------
 /** \brief Initialize the default functions. */
-void ParserUInt::InitFun()
+void ParserInt::InitFun()
 {
   DefineFun( _T("sign"), Sign);
   DefineFun( _T("abs"), Abs);
@@ -242,7 +242,7 @@ void ParserUInt::InitFun()
 
 //---------------------------------------------------------------------------
 /** \brief Initialize operators. */
-void ParserUInt::InitOprt()
+void ParserInt::InitOprt()
 {
   // disable all built in operators, not all of them usefull for integer numbers
   // (they don't do rounding of values)

@@ -1,10 +1,15 @@
 #include <iostream>
 #include <stdlib.h>
 #include <muParser.h>
-#include "muParserUInt.h"
+#include "muParserInt.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 
+/**
+ * TODO
+ * * Allow switching 32bit/64bit.
+ * * Use round from math lib.
+ */
 using namespace std;
 using namespace mu;
 
@@ -32,7 +37,10 @@ static void print_help()
     cout << "\tkb  kilobyte  (1024)" << endl;
     cout << "\tmb  megabyte  (1024kb)" << endl;
     cout << "\tgb  gigabyte  (1024mb)" << endl;
-
+    cout << endl;
+    cout << "\tk   kilo      (1000)" << endl;
+    cout << "\tM   Mega      (1000k)" << endl;
+    cout << "\tG   Giga      (1000M)" << endl;
 }
 
 int main (int argc, char **argv)
@@ -43,7 +51,7 @@ int main (int argc, char **argv)
 
 
     // Create parser object.
-    mu::ParserUInt p;
+    mu::ParserInt p;
     p.DefineOprtChars("mkgbMGx");
     value_type ans = 0;
     p.DefineVar("ans", &ans);
@@ -89,13 +97,13 @@ int main (int argc, char **argv)
 
             // Print result.
             std::cout << "Result: "<<endl;
-            unsigned int result = p.Eval();
-            std::cout << "dec:   "<<dec << result;
-            std::cout << " (signed: " << int(result) << ")" << endl; 
-            std::cout << "hex: 0x"<<hex << result << endl;
+            long result = p.Eval();
+            std::cout << "dec:   "<<dec <<(unsigned long)result<< " (unsigned)" << endl;
+            std::cout << "dec:   "<< long(result) << " (signed)" << endl; 
+            std::cout << "hex:   0x"<<hex << result << endl;
 
             std::cout  << "bit:   "; 
-            unsigned int mask = 1<<31;
+            unsigned long mask = 1<<31;
             for(int i =0 ; i  < 32; i++,mask>>=1) {
                 std::cout << ((result&mask) == 0? 0:1);
                 if((i%4) == 3) std::cout << " ";
