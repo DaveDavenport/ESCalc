@@ -27,6 +27,7 @@
 #define MU_PARSER_INT_H
 
 #include "muParserBase.h"
+#include <stdint.h>
 #include <vector>
 
 
@@ -46,7 +47,7 @@ namespace mu
 class ParserInt : public ParserBase
 {
 private:
-    static long  Round(value_type v) { return (long)(v + 0.5 ); };
+    static int64_t  Round(value_type v) { return (int64_t)(v + 0.5 ); };
   
     static value_type  Abs(value_type);
     static value_type  Sign(value_type);

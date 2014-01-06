@@ -14,9 +14,10 @@ using namespace std;
 using namespace mu;
 
 
-const int kilob = 1024;
-const int megab = 1024*1024;
-const int gigab = 1024*1024*1024;
+const int64_t kilob = 1024;
+const int64_t megab = 1024*1024;
+const int64_t gigab = 1024*1024*1024;
+const int64_t terab = gigab*1024; 
 
 ///////////////
 // Postfix  //
@@ -29,6 +30,7 @@ static value_type giga ( value_type val ) { return 1000*1000*1000*val; }
 static value_type kilobyte(value_type val) { return kilob*val; }
 static value_type megabyte (value_type val) { return megab*val; }
 static value_type gigabyte (value_type val) { return gigab*val; }
+static value_type terabyte (value_type val) { return terab*val; }
 
 static void print_help()
 {
@@ -37,14 +39,51 @@ static void print_help()
     cout << "\tkb  kilobyte  (1024)" << endl;
     cout << "\tmb  megabyte  (1024kb)" << endl;
     cout << "\tgb  gigabyte  (1024mb)" << endl;
+    cout << "\ttb  terabyte  (1024mb)" << endl;
     cout << endl;
     cout << "\tk   kilo      (1000)" << endl;
     cout << "\tM   Mega      (1000k)" << endl;
     cout << "\tG   Giga      (1000M)" << endl;
+    cout << endl;
+    cout << "32bit (switch to 32bit printing)" << endl;
+    cout << "64bit (switch to 64bit printing)" << endl;
+}
+
+template<typename T,typename UT>
+void print_value(T result)
+{
+    unsigned int size = sizeof(T)*8;
+    std::cout << "Result: (" << size << " bits)" <<endl;
+    std::cout << "dec:   "<< dec <<(UT)result<< " (unsigned)" << endl;
+    std::cout << "dec:   "<< T(result) << " (signed)" << endl; 
+    std::cout << "hex:   0x"<<hex << result << endl;
+
+    std::cout  << "bit:   "; 
+
+#if 0
+    UT mask = 1<<(size-1);
+    UT val = result;
+    for(int i =0 ; i  < size; i++,mask>>=1) {
+        std::cout << ((val&mask) == 0? 0:1);
+        if((i%4) == 3) std::cout << " ";
+    }
+    std::cout << endl;
+#endif
+    std::cout << "Bytes: " << dec;
+
+    std::cout << int(result%kilob) << "b, ";
+    std::cout << int((result%megab)/kilob) << "kb, ";
+    std::cout << int((result%gigab)/megab) << "mb, ";
+    std::cout << int((result%terab)/gigab) << "gb, " ;
+    std::cout << int(result/terab) << "tb" <<endl;
+
+
+
 }
 
 int main (int argc, char **argv)
 {
+    bool low_prec = false;
     // Setup readline
     const char *prompt = "> "; 
     using_history();
@@ -52,7 +91,7 @@ int main (int argc, char **argv)
 
     // Create parser object.
     mu::ParserInt p;
-    p.DefineOprtChars("mkgbMGx");
+    p.DefineOprtChars("mkgbtMGx");
     value_type ans = 0;
     p.DefineVar("ans", &ans);
                        
@@ -60,6 +99,7 @@ int main (int argc, char **argv)
         p.DefinePostfixOprt("kb", kilobyte);
         p.DefinePostfixOprt("mb", megabyte);
         p.DefinePostfixOprt("gb", gigabyte);
+        p.DefinePostfixOprt("tb", terabyte);
 
         // SI
         p.DefinePostfixOprt("k", kilo);
@@ -89,32 +129,29 @@ int main (int argc, char **argv)
                 print_help();
                 free(temp);
                 continue;
+            } else if (strncasecmp ( temp, "32bit", 5) == 0) {
+                low_prec = true;
+                free(temp);
+                continue;
+            } else if (strncasecmp ( temp, "64bit", 5) == 0) {
+                low_prec = false;
+                free(temp);
+                continue;
             }
+
             add_history(temp);
             // Calculate
             p.SetExpr(temp);
-
-
             // Print result.
-            std::cout << "Result: "<<endl;
             long result = p.Eval();
-            std::cout << "dec:   "<<dec <<(unsigned long)result<< " (unsigned)" << endl;
-            std::cout << "dec:   "<< long(result) << " (signed)" << endl; 
-            std::cout << "hex:   0x"<<hex << result << endl;
-
-            std::cout  << "bit:   "; 
-            unsigned long mask = 1<<31;
-            for(int i =0 ; i  < 32; i++,mask>>=1) {
-                std::cout << ((result&mask) == 0? 0:1);
-                if((i%4) == 3) std::cout << " ";
+            if(low_prec) {
+                int res = result;
+                print_value<int,unsigned int>(res);
+            }else{
+                print_value<long, unsigned long>(result);
             }
-            std::cout << endl;
-            std::cout << "Bytes: " << dec;
 
-            std::cout << int(result%kilob) << "b, ";
-            std::cout <<  int((result%megab)/kilob) << "kb, ";
-            std::cout <<  int((result%gigab)/megab) << "mb, ";
-            std::cout <<  int(result/gigab) << "gb" <<endl;
+
 
             // update ans variable
             ans = result;

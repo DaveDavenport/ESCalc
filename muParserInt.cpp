@@ -120,16 +120,19 @@ int ParserInt::IsVal(const char_type *a_szExpr, int *a_iPos, value_type *a_fVal)
   string_type buf(a_szExpr);
   std::size_t pos = buf.find_first_not_of(_T("0123456789"));
 
+
   if (pos==std::string::npos)
     return 0;
 
   stringstream_type stream( buf.substr(0, pos ) );
-  int iVal(0);
+
+  int64_t iVal(0);
 
   stream >> iVal;
-  if (stream.fail())
+  if (stream.fail()){
     return 0;
-      
+  }
+
   stringstream_type::pos_type iEnd = stream.tellg();   // Position after reading
   if (stream.fail())
     iEnd = stream.str().length();  
