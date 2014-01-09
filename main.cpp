@@ -59,16 +59,17 @@ void print_value(T result)
     std::cout << "hex:   0x"<<hex << result << endl;
 
     std::cout  << "bit:   "; 
-
-#if 0
-    UT mask = 1<<(size-1);
     UT val = result;
-    for(int i =0 ; i  < size; i++,mask>>=1) {
-        std::cout << ((val&mask) == 0? 0:1);
+    int buffer[size];
+    for (unsigned int i=0; i < size; i++) {
+        buffer[size-i-1] = ((val&1) == 1);
+        val /=2;
+    } 
+    for(unsigned i=-0; i < size; i++) {
+        std::cout << buffer[i];
         if((i%4) == 3) std::cout << " ";
     }
     std::cout << endl;
-#endif
     std::cout << "Bytes: " << dec;
 
     std::cout << int(result%kilob) << "b, ";
